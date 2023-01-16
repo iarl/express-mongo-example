@@ -20,7 +20,6 @@ router.post("/signup", async (req: Request, res: Response, next: NextFunction)=>
             message: "User have successfully registered",
             body: user
         })
-    
     } catch (error) {
         next(error)
     }
@@ -34,7 +33,7 @@ router.post("/login", async (req: Request, res: Response, next: NextFunction)=>{
         if (user){
             const checkCredentials = await bcrypt.compare(password, user.hashedPw)
             if(checkCredentials){
-                const token = await jwt.sign({ username: user.username }, accessTokenSecret)
+                const token = await jwt.sign({ username: user.username }, accessTokenSecret, {expiresIn: '5m'})
                 res.status(200).send({ accessToken: token })
             } else{
                 res.status(401).send({error: "Wrong username or password"})

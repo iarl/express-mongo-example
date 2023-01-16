@@ -16,25 +16,13 @@ const port = process.env.PORT ?? 3000
 app.use(express.json())
 app.use(bodyParser.json());
 app.use(logger)
+
 //routes
 app.use(airplanesRoutes)
 app.use(citiesRoutes)
 app.use(flightsRoutes)
 app.use('/user', userRoutes)
 
-/*
-async function start() {
-  try {
-    await connect(`mongodb://${mongoUser}:${mongoPassword}@0.0.0.0:27017/flis?authSource=admin`)
-    console.log('⚡️[server]: MongoDB connected')
-    app.listen(port, () => {
-      console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
-*/
 
 async function start() {
   try {
@@ -49,26 +37,20 @@ async function start() {
 
 // Unknown Routes
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
-  const err = new Error(`Route ${req.originalUrl} not found`) as any
-  err.statusCode = 404
-  next(err)
+  const error = new Error(`Route ${req.originalUrl} not found`) as any
+  error.statusCode = 404
+  next(error)
 })
 
 // Global Error Handler
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  err.status = err.status || 'error'
-  err.statusCode = err.statusCode || 500
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  error.status = error.status || 'error'
+  error.statusCode = error.statusCode || 500
 
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
+  res.status(error.statusCode).send({
+    status: error.status,
+    message: error.message
   })
 })
 
-
 start()
-/*
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
-})
-*/

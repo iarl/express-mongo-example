@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
 dotenv.config()
-const accessTokenSecret = String(process.env.accessTokenSecret)
+const accessTokenSecret = String(process.env.ACCESS_TOKEN_SECRET)
 
 const isLoggedIn = async (req: any, res: any, next: NextFunction) => {
   try {

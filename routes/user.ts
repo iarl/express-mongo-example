@@ -13,17 +13,36 @@ const accessTokenSecret = String(process.env.ACCESS_TOKEN_SECRET)
 router.post('/signup', async (req: Request, res: Response, next: NextFunction)=>{
     const username = req.body.username
     const password = req.body.password
-    try {
-        const hashedPw = await bcrypt.hash(password, 12)
-        const user = new User({username, hashedPw})
-        await user.save()
-        res.status(201).send({
-            message: 'User have successfully registered',
-            body: user
+    const regexPassword = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[\!\@\#\$\%\^\&\*\])(?=.*[a-zA-Z]).{8,16}$/
+    if (regexPassword.test(password)){
+        try {
+            const hashedPw = await bcrypt.hash(password, 12)
+            const user = new User({username, hashedPw})
+            await user.save()
+            res.status(201).send({
+                message: 'User have successfully registered',
+                body: user
+            })
+        } catch (error) {
+            next(error)
+        }
+    } else{
+        res.status(400).send({
+            error: {
+                "Password must contain": {
+                    "characters": {
+                      "min": 8,
+                      "max": 16
+                    },
+                    "upperCase": "at least 1",
+                    "lowerCase": "at least 1",
+                    "number": "at least 1",
+                    "specialCharacter": "at least 1 of !@#$%^&*"
+                }
+             }
         })
-    } catch (error) {
-        next(error)
-    }
+    } 
+
 })
 
 router.post('/login', async (req: Request, res: Response, next: NextFunction)=>{

@@ -10,6 +10,9 @@ const schema = new Schema({
     hashedPw: {
         type: String,
         required: true
+    },
+    accessToken: {
+        type: String
     }
 })
 

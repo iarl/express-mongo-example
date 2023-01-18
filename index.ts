@@ -6,7 +6,6 @@ import citiesRoutes from './routes/cities'
 import flightsRoutes from './routes/flights'
 import userRoutes from './routes/user'
 import mongoConnect from './utils/mongoConnect'
-import morgan from 'morgan'
 const mongooseMorgan = require('mongoose-morgan')
 
 dotenv.config()
@@ -14,12 +13,12 @@ const app: Express = express()
 const port = process.env.PORT ?? 3000
 
 // LOGS
-//save errors into database
+//save logs into database
 const mongoUrl = process.env.MONGODB_URL
 const mongoUser = process.env.MONGODB_USER
 const mongoPassword = process.env.MONGODB_PASSWORD
 const mongoDatabase = process.env.MONGODB_DATABASE_NAME
-morgan.token('url', function (req: any, res: any) { 
+mongooseMorgan.token('url', function (req: any, res: any) { 
   return req.protocol + '://' + req.hostname + req.originalUrl 
 })
 
@@ -33,9 +32,6 @@ app.use(mongooseMorgan({
  },
  {},
  format))
-
-//show log in console
-//app.use(morgan(format))
 
 //middlewares
 app.use(express.json())

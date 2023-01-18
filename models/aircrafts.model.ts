@@ -4,7 +4,7 @@ const beautifyUnique = require('mongoose-beautiful-unique-validation')
 const schema = new Schema({
     id: {
         type: Number,
-        required: [true, 'Airplane id is required'],
+        required: [true, 'Aircraft id is required'],
         unique: true
     },
     year: {
@@ -12,22 +12,20 @@ const schema = new Schema({
     },
     company: {
         type: String,
-        required: [true, 'Airplane company is required']
+        required: [true, 'Aircraft company is required']
     },
     model: {
         type: String,
-        required: [true, 'Airplane model is required']
+        required: [true, 'Aircraft model is required']
     },
     first_class_seats: {
-        type: Number,
-        price: Number
+        type: Number
     },
     economy_class_seats: {
-        type: Number,
-        price: Number
+        type: Number
     }
 })
 
 schema.plugin(beautifyUnique)
 
-export default model('Airplane', schema)
+export default model('Aircraft', schema)

@@ -22,7 +22,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.3",
     "mongoose-beautiful-unique-validation": "^7.1.1",
-    "redis": "^4.5.1"
+    "mongoose-morgan": "^1.0.17"
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.2",

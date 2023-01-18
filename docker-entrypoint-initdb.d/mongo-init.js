@@ -8,4 +8,4 @@ db.createUser(
     roles: [{ role: 'readWrite', db: 'api_prod_db' }],
   },
 )
-db.createCollection('airplanes')
+db.createCollection('aircrafts')
